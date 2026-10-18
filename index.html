@@ -30,7 +30,7 @@
   --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--s7:48px;--s8:64px;
   --slot-size:54px;--icon:48px;
   --gutter:24px;--maxw:1200px;--header-h:76px;
-  --z-tip:20;--z-sheet:40;--z-header:30;
+  --z-tip:45;--z-sheet:50;--z-header:30;   /* the pet widget sits at z 40/41 */
   --f-pixel:"Pixelify Sans",ui-monospace,monospace;
   --f-body:"Rubik",system-ui,sans-serif;
   --notch:polygon(2px 0,calc(100% - 2px) 0,100% 2px,100% calc(100% - 2px),calc(100% - 2px) 100%,2px 100%,0 calc(100% - 2px),0 2px);
@@ -126,7 +126,8 @@ button.slot:focus-visible{outline:2px solid var(--gui-ink);outline-offset:-4px}
 .slot.r-rare .rar{background:var(--r-rare)}.slot.r-legendary .rar{background:var(--r-legendary)}
 .slot.r-mythic .rar{background:var(--r-mythic)}.slot.r-immortal .rar{background:var(--r-immortal)}
 .slot.r-exotic .rar{background:var(--r-exotic)}
-.ph{font:700 22px/1 var(--f-pixel);color:var(--slot-ink);text-shadow:2px 2px 0 var(--slot-lo)}
+.ph{display:block;width:var(--icon);height:var(--icon);font-size:0;color:transparent;overflow:hidden;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Cpath fill='%234a2a3b' d='M2 3h12v11H2z'/%3E%3Cpath fill='%236f4a5c' d='M3 4h10v2H3zM3 7h10v6H3z'/%3E%3Cpath fill='%233a1c2e' d='M7 6h2v3H7z'/%3E%3C/svg%3E") center/100% 100% no-repeat;image-rendering:pixelated}
 .slot.sm{--slot-size:40px;--icon:32px}
 .slot.more{font:700 14px var(--f-pixel);color:var(--slot-ink);text-shadow:2px 2px 0 var(--slot-lo)}
 .strip{display:flex;flex-wrap:wrap;align-items:center}
@@ -236,6 +237,8 @@ img.flower{width:20px;height:20px}
 footer.site{margin-top:64px;padding:24px var(--gutter) 40px;border-top:4px solid var(--line);background:var(--night-2);
   color:var(--ink-3);font-size:14px;text-align:center}
 footer.site p{margin:0}
+/* keep the bottom of the page clear of the pet in the corner (96px, 72px under 600px) */
+@media (max-width:1023px){footer.site{padding-bottom:120px}}
 footer.site p+p{margin-top:6px}
 
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none !important;animation:none !important}}
@@ -253,7 +256,7 @@ footer.site p+p{margin-top:6px}
 .toolbar .jump{display:none}
 .crate-list{display:grid;gap:32px}
 .crate-row{display:grid;grid-template-columns:auto minmax(0,1fr);gap:24px;align-items:start;
-  content-visibility:auto;contain-intrinsic-size:auto 420px;scroll-margin-top:100px}
+  content-visibility:auto;contain-intrinsic-size:auto 420px;scroll-margin-top:calc(var(--header-h) + 84px)}
 .chest{width:max-content;max-width:100%}
 .chest-title{display:flex;align-items:baseline;gap:12px;margin:0 2px 8px}
 .chest-title h3{font:700 20px/1.1 var(--f-pixel);color:var(--gui-ink)}
@@ -274,7 +277,13 @@ footer.site p+p{margin-top:6px}
 .crate-side .go,.crate-side .copy{display:inline-flex;align-items:center;margin-top:16px}
 .crate-side .go{min-height:40px;font:500 16px var(--f-pixel)}
 .mini .xp-txt{white-space:nowrap}
-#undumped .btn{margin-top:16px}
+#showall{margin-top:16px}
+.crates-main{min-width:0}
+.crate-list{grid-template-columns:minmax(0,1fr)}
+.crate-side{min-width:0}
+.crate-side .mc-tip.static{max-width:min(380px,100%)}
+/* with the 264px index next to it, the side column only fits beside the chest from 1280px */
+@media (max-width:1279px){.crates-layout .crate-row{grid-template-columns:minmax(0,1fr)}}
 .sets.collapsed [data-extra]{display:none}
 @media (max-width:1023px){
   .crates-layout{grid-template-columns:minmax(0,1fr)}
@@ -327,6 +336,45 @@ footer.site p+p{margin-top:6px}
 
 .changes.recent .k{min-width:72px}
 .sec:first-of-type .sec-head{margin-top:24px}
+
+.pet{position:fixed;right:16px;bottom:10px;z-index:35;width:128px;height:128px}
+.pet-btn{all:unset;display:block;width:128px;height:128px;cursor:pointer;position:relative}
+.pet-btn:focus-visible{outline:2px solid var(--focus,#f7d69d);outline-offset:2px}
+.pet-shadow{position:absolute;left:30px;bottom:4px;width:68px;height:22px;image-rendering:pixelated;
+  opacity:.55;pointer-events:none}
+.pet-btn img.f{position:absolute;inset:0;width:128px;height:128px;image-rendering:pixelated;
+  pointer-events:none;visibility:hidden}
+.pet[data-frame=idle] .f-idle,.pet[data-frame=swish] .f-swish,.pet[data-frame=blink] .f-blink,
+.pet[data-frame=happy] .f-happy{visibility:visible}
+.pet.stroked .pet-btn{animation:pet-hop .36s steps(3)}
+@keyframes pet-hop{40%{transform:translateY(-6px)}}
+.pet-heart{position:absolute;width:24px;height:24px;image-rendering:pixelated;pointer-events:none;
+  animation:pet-heart 1.1s steps(9) forwards}
+@keyframes pet-heart{from{transform:translateY(0);opacity:1}to{transform:translateY(-48px);opacity:0}}
+.pet-swap{position:absolute;right:4px;top:-30px;font:13px/1 var(--f-pixel,'Pixelify Sans',monospace);
+  color:#fff;text-shadow:2px 2px 0 #3f3f3f;background:var(--btn,#b01c72);padding:6px 9px;cursor:pointer;
+  border:2px solid var(--line,#05010c);
+  box-shadow:inset 2px 2px 0 var(--btn-hi,#e5489a),inset -2px -2px 0 var(--btn-lo,#6e0f47);
+  opacity:0;transition:opacity .15s}
+.pet-swap:hover{background:var(--btn-hover,#c4217f)}
+.pet-swap:focus-visible{outline:2px solid var(--focus,#f7d69d);outline-offset:2px}
+.pet:hover .pet-swap,.pet:focus-within .pet-swap{opacity:1}
+@media (hover:none){.pet-swap{opacity:1}}
+@media (max-width:600px){.pet{right:4px;bottom:4px;transform:scale(.7);transform-origin:bottom right}}
+@media (prefers-reduced-motion:reduce){.pet.stroked .pet-btn{animation:none}
+  .pet-heart{animation:pet-fade 1.1s forwards}@keyframes pet-fade{to{opacity:0}}}
+.pet-stats{position:fixed;right:16px;bottom:150px;z-index:36;min-width:220px;max-width:280px;padding:10px 12px;
+  font:14px/1.45 var(--f-pixel,'Pixelify Sans',monospace);color:var(--tt-ink,#fff);
+  background:var(--tt-bg,#100010);border:2px solid var(--tt-bg,#100010);
+  box-shadow:inset 0 0 0 2px var(--tt-edge-1,#5000ff),inset 0 0 0 4px var(--tt-bg,#100010)}
+.pet-stats h3{margin:0 0 6px;font-size:15px;font-weight:600;color:var(--gold,#f7d69d)}
+.pet-stats table{border-collapse:collapse;width:100%}
+.pet-stats td{padding:1px 0;color:var(--tt-gray,#aaa)}.pet-stats td+td{text-align:right;color:#fff}
+.pet-stats .k{color:#fff;padding-top:6px}
+.pet-stats p{margin:0;color:var(--tt-gray,#aaa)}
+.pet-stats button{margin:10px 6px 0 0;font:inherit;color:#fff;background:#6f6f6f;padding:3px 10px;cursor:pointer;
+  border:2px solid #000;box-shadow:inset 2px 2px 0 #a8a8a8,inset -2px -2px 0 #444}
+.pet-stats button:focus-visible{outline:2px solid var(--focus,#f7d69d);outline-offset:2px}
 </style>
 </head>
 <body data-page="new">
@@ -368,7 +416,7 @@ footer.site p+p{margin-top:6px}
 </main>
 <footer class="site">
   
-  <p>Blossom+ &middot; fan-made, not affiliated with BlossomCraft &middot; built 2026-10-19 00:00</p>
+  <p>Blossom+ &middot; fan-made, not affiliated with BlossomCraft &middot; built 2026-10-19 00:38</p>
 </footer>
 <div class="mc-tip" id="ftip" aria-hidden="true"></div>
 <div class="sheet-bg" id="sheet-bg" hidden></div>
@@ -479,5 +527,101 @@ footer.site p+p{margin-top:6px}
 })();
 </script>
 <script></script>
+<div class="pet" id="pet" data-src="assets/" data-frame="idle"><button type="button" class="pet-btn" aria-label="Stroke the cat"><img class="pet-shadow" src="assets/pet-shadow.png" alt=""><img class="f f-idle" alt=""><img class="f f-swish" alt=""><img class="f f-blink" alt=""><img class="f f-happy" alt=""></button><button type="button" class="pet-swap">Dog instead</button></div>
+<script>
+(function(){
+  var KIND_KEY='blossom.pet.kind', STATS_KEY='blossom.pet.stats';
+  function get(k){try{return localStorage.getItem(k)}catch(e){return null}}
+  function set(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+  var root=document.getElementById('pet'); if(!root) return;
+  var btn=root.querySelector('.pet-btn'), swap=root.querySelector('.pet-swap');
+  var base=root.getAttribute('data-src');
+  var kind=get(KIND_KEY)==='dog'?'dog':'cat';
+  var calm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var busyUntil=0, FRAMES=['idle','swish','blink','happy'];
+
+  function load(){
+    root.setAttribute('data-kind',kind);
+    FRAMES.forEach(function(f){ root.querySelector('.f-'+f).src=base+'pet-'+kind+'-'+f+'.png'; });
+    btn.setAttribute('aria-label','Stroke the '+kind);
+    swap.textContent=kind==='dog'?'Cat instead':'Dog instead';
+    swap.setAttribute('aria-label','Switch to a '+(kind==='dog'?'cat':'dog'));
+  }
+  function frame(f){root.setAttribute('data-frame',f)}
+  function blip(f,ms){ if(Date.now()<busyUntil) return; frame(f);
+    setTimeout(function(){ if(Date.now()>=busyUntil) frame('idle'); },ms); }
+
+  // idle life: a tail swish now and then, and blinking
+  if(!calm){
+    (function swishLoop(){ setTimeout(function(){ blip('swish',420); swishLoop(); },2600+Math.random()*3000); })();
+    (function blinkLoop(){ setTimeout(function(){ blip('blink',160); blinkLoop(); },3000+Math.random()*4000); })();
+  }
+
+  function localDay(d){function z(n){return (n<10?'0':'')+n}
+    return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate())}
+  function readStats(){try{return JSON.parse(get(STATS_KEY))||{}}catch(e){return {}}}
+  function count(){
+    // silent + local: only this browser's localStorage, never sent or shown
+    var s=readStats(), now=new Date(), day=localDay(now);
+    var k=s[kind]||(s[kind]={total:0,first:now.toISOString(),days:{}});
+    k.total++; k.last=now.toISOString(); k.days[day]=(k.days[day]||0)+1;
+    set(STATS_KEY,JSON.stringify(s));
+  }
+  function heart(){
+    var h=document.createElement('img'); h.className='pet-heart'; h.alt='';
+    h.src=base+'pet-heart.png';
+    h.style.left=(40+Math.random()*44)+'px'; h.style.top=(6+Math.random()*18)+'px';
+    root.appendChild(h); setTimeout(function(){h.remove()},1150);
+  }
+  function stroke(){
+    count();
+    busyUntil=Date.now()+1300; frame('happy');
+    root.classList.remove('stroked'); void root.offsetWidth; root.classList.add('stroked');
+    var n=1+Math.floor(Math.random()*3); for(var i=0;i<n;i++) setTimeout(heart,i*150);
+    setTimeout(function(){ if(Date.now()>=busyUntil) frame('idle'); },1350);
+  }
+  btn.addEventListener('click',stroke);
+  swap.addEventListener('click',function(e){
+    e.stopPropagation(); kind=kind==='dog'?'cat':'dog'; set(KIND_KEY,kind); load(); });
+
+  // hidden stats view: #petstats, or press P three times
+  function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function showStats(){
+    var old=document.getElementById('pet-stats'); if(old){old.remove();return}
+    var s=readStats(), box=document.createElement('section');
+    box.id='pet-stats'; box.className='pet-stats'; box.setAttribute('role','dialog');
+    box.setAttribute('aria-label','Pet stats for this browser');
+    var rows='';
+    ['cat','dog'].forEach(function(k){
+      var v=s[k]; if(!v) return;
+      var today=v.days[localDay(new Date())]||0;
+      var best=Object.keys(v.days).sort(function(a,b){return v.days[b]-v.days[a]})[0];
+      rows+='<tr><td class="k">'+(k==='cat'?'Cat':'Dog')+'</td><td class="k">'+esc(v.total)+'</td></tr>'+
+            '<tr><td>today</td><td>'+esc(today)+'</td></tr>'+
+            '<tr><td>best day ('+esc(best)+')</td><td>'+esc(v.days[best])+'</td></tr>'+
+            '<tr><td>first stroke</td><td>'+esc(localDay(new Date(v.first)))+'</td></tr>';
+    });
+    box.innerHTML='<h3>Strokes (this browser)</h3>'+(rows?'<table>'+rows+'</table>':'<p>No strokes yet.</p>')+
+      '<button type="button" data-a="close">Close</button><button type="button" data-a="reset">Reset</button>';
+    box.addEventListener('click',function(e){
+      var a=e.target.getAttribute('data-a');
+      if(a==='reset'&&confirm('Reset the stroke counts in this browser?')){set(STATS_KEY,'{}');box.remove();showStats();}
+      if(a==='close') box.remove();
+    });
+    box.addEventListener('keydown',function(e){ if(e.key==='Escape') box.remove(); });
+    document.body.appendChild(box); box.querySelector('button').focus();
+  }
+  if(location.hash==='#petstats') showStats();
+  window.addEventListener('hashchange',function(){ if(location.hash==='#petstats') showStats(); });
+  var presses=[];
+  document.addEventListener('keydown',function(e){
+    if((e.key!=='p'&&e.key!=='P')||/input|textarea|select/i.test((e.target.tagName||''))) return;
+    var t=Date.now(); presses=presses.filter(function(x){return t-x<900}); presses.push(t);
+    if(presses.length>=3){presses=[];showStats();}
+  });
+
+  load(); frame('idle');
+})();
+</script>
 </body>
 </html>
