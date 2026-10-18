@@ -17483,7 +17483,7 @@ footer.site p+p{margin-top:6px}
 </main>
 <footer class="site">
   <p>Prices are the lowest asking prices seen in the auction house.</p>
-  <p>Blossom+ &middot; fan-made, not affiliated with BlossomCraft &middot; built 2026-10-19 00:39</p>
+  <p>Blossom+ &middot; fan-made, not affiliated with BlossomCraft &middot; built 2026-10-19 00:50</p>
 </footer>
 <div class="mc-tip" id="ftip" aria-hidden="true"></div>
 <div class="sheet-bg" id="sheet-bg" hidden></div>
@@ -17514,7 +17514,7 @@ footer.site p+p{margin-top:6px}
   };
 })();
 (function(){
-  // ---- item slots (6.5): floating tooltip on hover/focus, click pins (side box or sheet)
+  // ---- item slots (6.5): click shows the lore (side box or sheet); no hover tooltip
   var doc=document.documentElement; doc.classList.add('js');
   var wide=window.matchMedia('(min-width:768px)'), fine=window.matchMedia('(hover:hover)');
   var tip=document.getElementById('ftip'), sheet=document.getElementById('sheet'),
@@ -17540,15 +17540,9 @@ footer.site p+p{margin-top:6px}
     tip.style.left=Math.round(x)+'px'; tip.style.top=Math.round(y)+'px';
   }
   function hide(s){if(tip&&(!s||s===cur)){tip.classList.remove('on');cur=null;}}
-  document.addEventListener('mouseover',function(e){
-    var s=e.target.closest&&e.target.closest('button.slot'); if(isItemSlot(s)&&fine.matches) show(s);});
-  document.addEventListener('mouseout',function(e){
-    var s=e.target.closest&&e.target.closest('button.slot');
-    if(s&&!(e.relatedTarget&&s.contains(e.relatedTarget))) hide(s);});
-  document.addEventListener('focusin',function(e){
-    var s=e.target; if(!isItemSlot(s)) return; var fv=true; try{fv=s.matches(':focus-visible');}catch(_){}
-    if(fv) show(s);});
-  document.addEventListener('focusout',function(e){if(isItemSlot(e.target)) hide(e.target);});
+  // No tooltip on hover/focus (user's choice): clicking a slot already shows the full lore in the
+  // Selected item box or the sheet, and a second copy floating next to the cursor was just noise.
+  // show()/hide() stay for anything that wants the floating tooltip explicitly.
   window.addEventListener('scroll',function(){hide();},{passive:true});
 
   // bottom sheet: dialog with focus trap, Esc / tap outside closes, focus returns to the slot
