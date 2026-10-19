@@ -276,6 +276,9 @@ footer.site p+p{margin-top:6px}
 .item-row .detail{grid-column:1/-1;display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:start;padding:8px 0 4px}
 .item-row .detail[hidden]{display:none}
 .item-row:target .detail{display:grid}
+.item-row.flash{animation:rowflash 1.2s steps(1,end) 1}
+@keyframes rowflash{0%,33%{box-shadow:inset 0 0 0 3px var(--gold)}66%{box-shadow:inset 0 0 0 3px var(--gold-lo)}100%{box-shadow:none}}
+@media (prefers-reduced-motion:reduce){.item-row.flash{animation:none;box-shadow:inset 0 0 0 3px var(--gold)}}
 .istats{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:15px}
 .istats dt{color:var(--ink-3)}.istats dd{margin:0}
 .igroup .sec-head{margin:32px 0 12px}
@@ -17529,7 +17532,7 @@ footer.site p+p{margin-top:6px}
 </main>
 <footer class="site">
   <p>Prices are the lowest asking prices seen in the auction house.</p>
-  <p>Blossom+ &middot; fan-made, not affiliated with BlossomCraft &middot; built 2026-10-19 22:01</p>
+  <p>Blossom+ &middot; fan-made, not affiliated with BlossomCraft &middot; built 2026-10-19 22:04</p>
 </footer>
 <div class="mc-tip" id="ftip" aria-hidden="true"></div>
 <div class="sheet-bg" id="sheet-bg" hidden></div>
@@ -17707,6 +17710,37 @@ footer.site p+p{margin-top:6px}
     if(slot.value) $('picking-l').textContent=slot.options[slot.selectedIndex].text;
     if(write!==false) window.blossomHash.write(state());
   }
+  // ---- bring one row into view from the loadout/toolbar: visible (filters cleared only if they
+  // hide it), opened, scrolled to just under the sticky header + toolbar, briefly highlighted
+  var calmMotion=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function stickyOffset(){
+    var off=0, hdr=document.querySelector('header.site'), tb=document.querySelector('.items-main .toolbar');
+    if(hdr) off+=hdr.getBoundingClientRect().height;
+    if(tb&&getComputedStyle(tb).position==='sticky') off+=tb.getBoundingClientRect().height;
+    return off+12;
+  }
+  function showRow(r){
+    if(r.hidden){ q.value='';crate.value='';rarity.value='';slot.value='';job.value='';
+      only.setAttribute('aria-pressed','false'); apply(); }
+    var d=r.querySelector('.detail'), n=r.querySelector('.name');
+    d.hidden=false; n.setAttribute('aria-expanded','true');
+    if(!wide.matches&&$('loadout').open) $('loadout').open=false;   // the drawer would cover the row
+    // Rows off screen use content-visibility:auto, so their height is only an estimate until
+    // they render - one jump lands wrong. Re-aim every frame until the row stays put.
+    var stable=0, frames=0, last=null;
+    (function aim(){
+      var off=r.getBoundingClientRect().top-stickyOffset();
+      if(Math.abs(off)>1) window.scrollTo(0, Math.max(0, window.scrollY+off));
+      var now=Math.round(r.getBoundingClientRect().top);
+      stable=(now===last&&Math.abs(off)<=1)?stable+1:0; last=now;
+      if(stable<3&&++frames<90) setTimeout(aim,16);   // timer, not rAF: keeps working in a background tab
+    })();
+    rows.forEach(function(x){ x.classList.remove('flash'); });
+    void r.offsetWidth; r.classList.add('flash');
+    setTimeout(function(){ r.classList.remove('flash'); },1300);
+    n.focus({preventScroll:true});
+  }
+
   // row expansion
   rows.forEach(function(r){
     var b=r.querySelector('.name'), d=r.querySelector('.detail');
@@ -17751,7 +17785,10 @@ footer.site p+p{margin-top:6px}
         :it?'<span class="ph" aria-hidden="true">?</span>'
         :SLOTIMG[s[1]]?'<img class="sil" src="'+esc(SLOTIMG[s[1]])+'" alt="" width="48" height="48">'
         :'<span class="lbl">'+esc(s[2].split(' ')[0])+'</span>';
-      b.addEventListener('click',function(){slot.value=slot.value===s[1]?'':s[1]; apply(); render();});
+      // filled slot: show that item in the list; empty slot: pick one for it (filters the list)
+      b.addEventListener('click',function(){
+        if(it){ showRow(it.row); return; }
+        slot.value=slot.value===s[1]?'':s[1]; apply(); render();});
       box.appendChild(b);
     });
     var chosen=Object.keys(equipped).map(function(k){return ITEMS[equipped[k]];}), sums={};
@@ -17853,9 +17890,7 @@ footer.site p+p{margin-top:6px}
       var b=document.createElement('button'); b.type='button'; b.className='slot'; b.title=c.name;
       b.setAttribute('aria-label',c.name+'. Show in the list');
       b.innerHTML=c.icon?'<img src="'+esc(c.icon)+'" alt="" width="48" height="48">':'<span class="ph" aria-hidden="true">?</span>';
-      b.addEventListener('click',function(){ var d=c.r.querySelector('.detail'),n=c.r.querySelector('.name');
-        if(c.r.hidden){ q.value='';crate.value='';rarity.value='';slot.value='';job.value='';apply(); }
-        d.hidden=false; n.setAttribute('aria-expanded','true'); c.r.scrollIntoView({block:'center'}); n.focus(); });
+      b.addEventListener('click',function(){ showRow(c.r); });
       box.appendChild(b);
     });
     for(var i=pick.length;i<BAR_SLOTS;i++){ var e=document.createElement('span'); e.className='slot empty'; e.setAttribute('aria-hidden','true'); box.appendChild(e); }
