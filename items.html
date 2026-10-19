@@ -296,6 +296,18 @@ footer.site p+p{margin-top:6px}
 .lo-slots .slot{overflow:hidden;font:500 12px var(--f-pixel)}
 .lo-slots .slot .lbl{max-width:100%;padding:0 2px;color:var(--slot-ink);text-shadow:2px 2px 0 var(--slot-shadow);overflow:hidden;text-overflow:clip}
 .lo-slots .slot img.sil{opacity:.9}
+.lo-alt{margin-top:12px}
+.lo-alt[hidden]{display:none}
+.lo-alt-list{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.lo-alt-list li{display:grid;grid-template-columns:76px minmax(0,1fr);gap:6px;align-items:start}
+.lo-alt-list .k{font:500 13px var(--f-pixel);color:var(--gui-ink-2);padding-top:5px}
+.lo-alt-list li .alt+.alt{grid-column:2}
+.lo-alt-list .alt{display:flex;align-items:center;gap:6px;min-width:0;min-height:32px;padding:3px 6px;cursor:pointer;
+  background:var(--slot);border:0;box-shadow:inset 2px 2px 0 var(--slot-lo),inset -2px -2px 0 var(--slot-hi);
+  color:var(--slot-ink);font:500 13px var(--f-pixel);text-align:left;text-shadow:1px 1px 0 var(--slot-shadow)}
+.lo-alt-list .alt:hover{background:var(--slot-hover)}
+.lo-alt-list .alt img{width:24px;height:24px;image-rendering:pixelated;flex:none}
+.lo-alt-list .alt span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .lo-bar{margin-top:12px}
 .lo-bar[hidden]{display:none}
 .lo-bar-h{margin:0 0 6px;font:500 16px var(--f-pixel);color:var(--gui-ink)}
@@ -17501,6 +17513,10 @@ footer.site p+p{margin-top:6px}
       </select></label>
     <div class="lo-btns"><button class="btn primary" type="button" id="auto">Auto-pick best</button>
       <button class="btn" type="button" id="reset">Clear</button></div>
+    <div class="lo-alt" id="lo-alt" hidden>
+      <h3 class="lo-bar-h">Second choice</h3>
+      <ul class="lo-alt-list" id="lo-alt-list"></ul>
+    </div>
     <div class="lo-bar" id="lo-bar" hidden>
       <h3 class="lo-bar-h">Toolbar</h3>
       <div class="lo-bar-slots" id="lo-bar-slots"></div>
@@ -17513,7 +17529,7 @@ footer.site p+p{margin-top:6px}
 </main>
 <footer class="site">
   <p>Prices are the lowest asking prices seen in the auction house.</p>
-  <p>Blossom+ &middot; fan-made, not affiliated with BlossomCraft &middot; built 2026-10-19 21:57</p>
+  <p>Blossom+ &middot; fan-made, not affiliated with BlossomCraft &middot; built 2026-10-19 22:01</p>
 </footer>
 <div class="mc-tip" id="ftip" aria-hidden="true"></div>
 <div class="sheet-bg" id="sheet-bg" hidden></div>
@@ -17753,34 +17769,62 @@ footer.site p+p{margin-top:6px}
   }
   ITEMS.forEach(function(it){var b=it.row.querySelector('.add'); if(!b||!it.slot) return; b.addEventListener('click',function(){
     if(equipped[it.slot]===it.i) delete equipped[it.slot]; else equipped[it.slot]=it.i; render(); renderBar();});});
-  function bestOf(pool,g){ var best=null,bv=-Infinity;
-    pool.forEach(function(it){var v=score(it,g); if(v>bv){bv=v;best=it;}}); return bv>0?best:null; }
+  // ranked(pool): best first, one entry per item name, only items that score (any score for 'cheapest')
+  function ranked(pool,g){
+    var seen={}, out=pool.map(function(it){return {it:it,v:score(it,g)};})
+      .filter(function(x){return g==='cheapest'||x.v>0;})
+      .sort(function(a,b){return b.v-a.v;})
+      .filter(function(x){ if(seen[x.it.name]) return false; seen[x.it.name]=1; return true; });
+    return out.map(function(x){return x.it;});
+  }
+  var ALT={}, ALT_N=2;   // per slot: the next best picks after the one auto-pick equipped
+  function place(k,list,used){
+    var free=list.filter(function(it){return !used[it.name];});
+    if(free.length){ equipped[k]=free[0].i; used[free[0].name]=1; ALT[k]=free.slice(1,1+ALT_N); }
+    else { delete equipped[k]; ALT[k]=[]; }
+  }
   $('auto').addEventListener('click',function(){
-    var g=$('goal').value, jk=jobOf(g);
+    var g=$('goal').value, jk=jobOf(g), used={};   // one copy of an item can only be in one place
+    equipped={}; ALT={};
     if(jk){
       // you hold only two things: the job's tool in the main hand, one off-hand item;
       // armour only where its bonus works when worn
-      equipped={};
-      var used={};   // one copy of an item can only be in one place (wings worn OR held)
       ['HEAD','CHEST','LEGS','FEET'].forEach(function(k){
-        var b=bestOf(ITEMS.filter(function(it){return it.slot===k&&has(it,'worn');}),g); if(b){ equipped[k]=b.i; used[b.name]=1; } });
-      var mains=ITEMS.filter(function(it){return has(it,'main')&&!used[it.name];}),
+        place(k, ranked(ITEMS.filter(function(it){return it.slot===k&&has(it,'worn');}),g), used); });
+      var mains=ranked(ITEMS.filter(function(it){return has(it,'main');}),g),
           tools=mains.filter(function(it){return JOBTOOL[jk]&&it.cat===JOBTOOL[jk];});
-      var m=bestOf(tools.length?tools:mains,g); if(m) equipped.MAINHAND=m.i;
-      // off hand: charms/tails/nuggets first - a second tool there is only a fallback
-      if(m) used[m.name]=1;
-      var offs=ITEMS.filter(function(it){return has(it,'off')&&!used[it.name];}),
-          isTool=function(it){return Object.keys(JOBTOOL).some(function(k){return JOBTOOL[k]===it.cat;});},
-          o=bestOf(offs.filter(function(it){return !isTool(it);}),g)||bestOf(offs,g);
-      if(o) equipped.OFFHAND=o.i;
-      render(); renderBar(); return;
+      place('MAINHAND', tools.length?tools:mains, used);
+      // off hand: charms/tails/nuggets first - a second tool there only after them
+      var isTool=function(it){return Object.keys(JOBTOOL).some(function(k){return JOBTOOL[k]===it.cat;});},
+          offs=ranked(ITEMS.filter(function(it){return has(it,'off');}),g);
+      place('OFFHAND', offs.filter(function(it){return !isTool(it);}).concat(offs.filter(isTool)), used);
+    } else {
+      SLOTS.forEach(function(s){
+        place(s[0], ranked(ITEMS.filter(function(it){return it.slot===s[0]&&it.hasStats&&(g!=='cheapest'||it.opens);}),g), used); });
     }
+    render(); renderAlt(); renderBar();});
+  $('reset').addEventListener('click',function(){equipped={}; ALT={}; render(); renderAlt(); renderBar();});
+
+  // ---- "Second choice": the runners-up per slot; click one to swap it in
+  function renderAlt(){
+    var box=$('lo-alt'), list=$('lo-alt-list'), g=$('goal').value, html='';
     SLOTS.forEach(function(s){
-      var pool=ITEMS.filter(function(it){return it.slot===s[0]&&it.hasStats&&(g!=='cheapest'||it.opens);});
-      var best=null,bv=-Infinity; pool.forEach(function(it){var v=score(it,g); if(v>bv){bv=v;best=it;}});
-      if(best&&(g==='cheapest'||bv>0)) equipped[s[0]]=best.i; else delete equipped[s[0]];
-    }); render(); renderBar();});
-  $('reset').addEventListener('click',function(){equipped={}; render(); renderBar();});
+      var alts=ALT[s[0]]||[]; if(!alts.length) return;
+      html+='<li><span class="k">'+esc(s[2])+'</span>'+alts.map(function(it){
+        return '<button type="button" class="alt" data-k="'+s[0]+'" data-i="'+it.i+'" title="'+esc(it.name)+'">'+
+          (it.icon?'<img src="'+esc(it.icon)+'" alt="" width="24" height="24">':'')+
+          '<span>'+esc(it.name)+'</span></button>';}).join('')+'</li>';
+    });
+    list.innerHTML=html; box.hidden=!html;
+  }
+  $('lo-alt-list').addEventListener('click',function(e){
+    var b=e.target.closest('button.alt'); if(!b) return;
+    var k=b.dataset.k, it=ITEMS[+b.dataset.i], cur=equipped[k];
+    equipped[k]=it.i;
+    // the item that was in the slot becomes a second choice in its place
+    ALT[k]=(ALT[k]||[]).map(function(x){return x.i===it.i&&cur!==undefined?ITEMS[cur]:x;});
+    render(); renderAlt(); renderBar();
+  });
 
   // ---- toolbar: you only HOLD two items, so the hotbar gets what still works there:
   // items that work from the hotbar/inventory, then items you switch to for an action
