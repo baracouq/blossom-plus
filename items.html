@@ -71,14 +71,16 @@ nav.tabs{display:flex;gap:4px;margin-left:auto;margin-right:56px}
 .tab[aria-current=page]{background:var(--btn);color:var(--gold);box-shadow:inset 2px 2px 0 var(--btn-hi),inset -2px -4px 0 var(--btn-lo)}
 @media (max-width:1023px){nav.tabs{margin-right:0;gap:2px}.branch{display:none}
   header.site .wrap{gap:16px}.tab{padding:0 10px}}
+/* 5 tabs (private site) at tablet width: drop the tab icons so logo + tabs fit in one row */
+@media (min-width:768px) and (max-width:919px){nav.tabs:not(.n3) .tab img{display:none}
+  nav.tabs:not(.n3) .tab{padding:0 8px;font-size:16px}header.site .wrap{gap:12px}}
 @media (max-width:767px){
   header.site{position:static}
   header.site .wrap{flex-direction:column;align-items:stretch;gap:8px;padding-top:10px;padding-bottom:0;min-height:0}
   .brand{align-self:center}
-  nav.tabs{position:sticky;top:0;z-index:var(--z-header);margin:0 calc(-1 * var(--gutter));display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+  nav.tabs{position:sticky;top:0;z-index:var(--z-header);margin:0 calc(-1 * var(--gutter));display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:0}
   .tab{flex-direction:column;justify-content:center;gap:2px;height:56px;padding:0 4px;font-size:14px}
   .tab img{width:20px;height:20px}
-  nav.tabs.n3{grid-template-columns:repeat(3,1fr)}
 }
 
 /* 5.6 logo-type headings */
@@ -12967,7 +12969,7 @@ footer.site p+p{margin-top:6px}
   data-rarity="Rare" data-rank="3" data-win="3.0"
   data-price="" data-listings="0"
   data-slot="" data-name="☠ beetlejuice plushie ☠" data-search="rare paranoia ">
-  <div class="slot r-rare"><span class="ph" aria-hidden="true">?</span><span class="rar"></span></div>
+  <div class="slot r-rare"><img src="icons/b91e29156355e573.png" alt="" width="48" height="48" loading="lazy"><span class="rar"></span></div>
   <div class="nm"><button class="name" type="button" aria-expanded="false" aria-controls="x-895"
       style="color:#6A8D46">☠ Beetlejuice Plushie ☠</button>
     <p class="sub"><a href="crates.html#c-paranoia">PARANOIA</a></p><p class="mline"><span class="rarity r-rare">Rare</span> &middot; <span class="g">3%</span></p></div>
@@ -12981,7 +12983,7 @@ footer.site p+p{margin-top:6px}
   data-rarity="Rare" data-rank="3" data-win="3.0"
   data-price="" data-listings="0"
   data-slot="" data-name="☠ billy the puppet plushie ☠" data-search="rare paranoia ">
-  <div class="slot r-rare"><span class="ph" aria-hidden="true">?</span><span class="rar"></span></div>
+  <div class="slot r-rare"><img src="icons/28447e281a9306e1.png" alt="" width="48" height="48" loading="lazy"><span class="rar"></span></div>
   <div class="nm"><button class="name" type="button" aria-expanded="false" aria-controls="x-896"
       style="color:#D16868">☠ Billy the Puppet Plushie ☠</button>
     <p class="sub"><a href="crates.html#c-paranoia">PARANOIA</a></p><p class="mline"><span class="rarity r-rare">Rare</span> &middot; <span class="g">3%</span></p></div>
@@ -12995,7 +12997,7 @@ footer.site p+p{margin-top:6px}
   data-rarity="Rare" data-rank="3" data-win="3.0"
   data-price="" data-listings="0"
   data-slot="" data-name="☠ chucky plushie ☠" data-search="rare paranoia ">
-  <div class="slot r-rare"><span class="ph" aria-hidden="true">?</span><span class="rar"></span></div>
+  <div class="slot r-rare"><img src="icons/002fadd2ba29bf6a.png" alt="" width="48" height="48" loading="lazy"><span class="rar"></span></div>
   <div class="nm"><button class="name" type="button" aria-expanded="false" aria-controls="x-897"
       style="color:#CB603E">☠ Chucky Plushie ☠</button>
     <p class="sub"><a href="crates.html#c-paranoia">PARANOIA</a></p><p class="mline"><span class="rarity r-rare">Rare</span> &middot; <span class="g">3%</span></p></div>
@@ -13009,7 +13011,7 @@ footer.site p+p{margin-top:6px}
   data-rarity="Rare" data-rank="3" data-win="3.0"
   data-price="" data-listings="0"
   data-slot="" data-name="☠ freddy fazbear plushie ☠" data-search="rare paranoia ">
-  <div class="slot r-rare"><span class="ph" aria-hidden="true">?</span><span class="rar"></span></div>
+  <div class="slot r-rare"><img src="icons/cc68e59eae1f4456.png" alt="" width="48" height="48" loading="lazy"><span class="rar"></span></div>
   <div class="nm"><button class="name" type="button" aria-expanded="false" aria-controls="x-898"
       style="color:#AD8368">☠ Freddy Fazbear Plushie ☠</button>
     <p class="sub"><a href="crates.html#c-paranoia">PARANOIA</a></p><p class="mline"><span class="rarity r-rare">Rare</span> &middot; <span class="g">3%</span></p></div>
@@ -13023,7 +13025,7 @@ footer.site p+p{margin-top:6px}
   data-rarity="Rare" data-rank="3" data-win="3.0"
   data-price="" data-listings="0"
   data-slot="" data-name="☠ freddy krueger plushie ☠" data-search="rare paranoia ">
-  <div class="slot r-rare"><span class="ph" aria-hidden="true">?</span><span class="rar"></span></div>
+  <div class="slot r-rare"><img src="icons/60af2e6a0e56da41.png" alt="" width="48" height="48" loading="lazy"><span class="rar"></span></div>
   <div class="nm"><button class="name" type="button" aria-expanded="false" aria-controls="x-899"
       style="color:#C0635E">☠ Freddy Krueger Plushie ☠</button>
     <p class="sub"><a href="crates.html#c-paranoia">PARANOIA</a></p><p class="mline"><span class="rarity r-rare">Rare</span> &middot; <span class="g">3%</span></p></div>
@@ -13037,7 +13039,7 @@ footer.site p+p{margin-top:6px}
   data-rarity="Rare" data-rank="3" data-win="3.0"
   data-price="" data-listings="0"
   data-slot="" data-name="☠ ghostface plushie ☠" data-search="rare paranoia ">
-  <div class="slot r-rare"><span class="ph" aria-hidden="true">?</span><span class="rar"></span></div>
+  <div class="slot r-rare"><img src="icons/cb4418c6fd984525.png" alt="" width="48" height="48" loading="lazy"><span class="rar"></span></div>
   <div class="nm"><button class="name" type="button" aria-expanded="false" aria-controls="x-900"
       style="color:#84848D">☠ Ghostface Plushie ☠</button>
     <p class="sub"><a href="crates.html#c-paranoia">PARANOIA</a></p><p class="mline"><span class="rarity r-rare">Rare</span> &middot; <span class="g">3%</span></p></div>
@@ -13051,7 +13053,7 @@ footer.site p+p{margin-top:6px}
   data-rarity="Rare" data-rank="3" data-win="3.0"
   data-price="" data-listings="0"
   data-slot="" data-name="☠ jason voorhees plushie ☠" data-search="rare paranoia ">
-  <div class="slot r-rare"><span class="ph" aria-hidden="true">?</span><span class="rar"></span></div>
+  <div class="slot r-rare"><img src="icons/913e5f29a3442c16.png" alt="" width="48" height="48" loading="lazy"><span class="rar"></span></div>
   <div class="nm"><button class="name" type="button" aria-expanded="false" aria-controls="x-901"
       style="color:#838D6F">☠ Jason Voorhees Plushie ☠</button>
     <p class="sub"><a href="crates.html#c-paranoia">PARANOIA</a></p><p class="mline"><span class="rarity r-rare">Rare</span> &middot; <span class="g">3%</span></p></div>
@@ -13065,7 +13067,7 @@ footer.site p+p{margin-top:6px}
   data-rarity="Rare" data-rank="3" data-win="3.0"
   data-price="" data-listings="0"
   data-slot="" data-name="☠ michael myers plushie ☠" data-search="rare paranoia ">
-  <div class="slot r-rare"><span class="ph" aria-hidden="true">?</span><span class="rar"></span></div>
+  <div class="slot r-rare"><img src="icons/11d8602963be2d96.png" alt="" width="48" height="48" loading="lazy"><span class="rar"></span></div>
   <div class="nm"><button class="name" type="button" aria-expanded="false" aria-controls="x-902"
       style="color:#5984A4">☠ Michael Myers Plushie ☠</button>
     <p class="sub"><a href="crates.html#c-paranoia">PARANOIA</a></p><p class="mline"><span class="rarity r-rare">Rare</span> &middot; <span class="g">3%</span></p></div>
@@ -13079,7 +13081,7 @@ footer.site p+p{margin-top:6px}
   data-rarity="Rare" data-rank="3" data-win="3.0"
   data-price="" data-listings="0"
   data-slot="" data-name="☠ pennywise plushie ☠" data-search="rare paranoia ">
-  <div class="slot r-rare"><span class="ph" aria-hidden="true">?</span><span class="rar"></span></div>
+  <div class="slot r-rare"><img src="icons/d2a1d64a291b60ad.png" alt="" width="48" height="48" loading="lazy"><span class="rar"></span></div>
   <div class="nm"><button class="name" type="button" aria-expanded="false" aria-controls="x-903"
       style="color:#CE6868">☠ Pennywise Plushie ☠</button>
     <p class="sub"><a href="crates.html#c-paranoia">PARANOIA</a></p><p class="mline"><span class="rarity r-rare">Rare</span> &middot; <span class="g">3%</span></p></div>
@@ -13093,7 +13095,7 @@ footer.site p+p{margin-top:6px}
   data-rarity="Rare" data-rank="3" data-win="3.0"
   data-price="" data-listings="0"
   data-slot="" data-name="☠ pinhead plushie ☠" data-search="rare paranoia ">
-  <div class="slot r-rare"><span class="ph" aria-hidden="true">?</span><span class="rar"></span></div>
+  <div class="slot r-rare"><img src="icons/c8160a753438c54e.png" alt="" width="48" height="48" loading="lazy"><span class="rar"></span></div>
   <div class="nm"><button class="name" type="button" aria-expanded="false" aria-controls="x-904"
       style="color:#81878D">☠ Pinhead Plushie ☠</button>
     <p class="sub"><a href="crates.html#c-paranoia">PARANOIA</a></p><p class="mline"><span class="rarity r-rare">Rare</span> &middot; <span class="g">3%</span></p></div>
@@ -13107,7 +13109,7 @@ footer.site p+p{margin-top:6px}
   data-rarity="Rare" data-rank="3" data-win="3.0"
   data-price="" data-listings="0"
   data-slot="" data-name="☠ witch cat plushie ☠" data-search="rare paranoia ">
-  <div class="slot r-rare"><span class="ph" aria-hidden="true">?</span><span class="rar"></span></div>
+  <div class="slot r-rare"><img src="icons/c5dd46c18ea01622.png" alt="" width="48" height="48" loading="lazy"><span class="rar"></span></div>
   <div class="nm"><button class="name" type="button" aria-expanded="false" aria-controls="x-905"
       style="color:#966FA6">☠ Witch Cat Plushie ☠</button>
     <p class="sub"><a href="crates.html#c-paranoia">PARANOIA</a></p><p class="mline"><span class="rarity r-rare">Rare</span> &middot; <span class="g">3%</span></p></div>
@@ -13121,7 +13123,7 @@ footer.site p+p{margin-top:6px}
   data-rarity="Legendary" data-rank="4" data-win="2.5"
   data-price="" data-listings="0"
   data-slot="" data-name="☠ bone dragon plushie ☠" data-search="legendary paranoia ">
-  <div class="slot r-legendary"><span class="ph" aria-hidden="true">?</span><span class="rar"></span></div>
+  <div class="slot r-legendary"><img src="icons/de519548c1f2c681.png" alt="" width="48" height="48" loading="lazy"><span class="rar"></span></div>
   <div class="nm"><button class="name" type="button" aria-expanded="false" aria-controls="x-906"
       style="color:#A69C89">☠ Bone Dragon Plushie ☠</button>
     <p class="sub"><a href="crates.html#c-paranoia">PARANOIA</a></p><p class="mline"><span class="rarity r-legendary">Legendary</span> &middot; <span class="g">2.5%</span></p></div>
@@ -13135,7 +13137,7 @@ footer.site p+p{margin-top:6px}
   data-rarity="Legendary" data-rank="4" data-win="2.5"
   data-price="" data-listings="0"
   data-slot="" data-name="☠ executioner plushie ☠" data-search="legendary paranoia ">
-  <div class="slot r-legendary"><span class="ph" aria-hidden="true">?</span><span class="rar"></span></div>
+  <div class="slot r-legendary"><img src="icons/d0a5cf2881d82c1b.png" alt="" width="48" height="48" loading="lazy"><span class="rar"></span></div>
   <div class="nm"><button class="name" type="button" aria-expanded="false" aria-controls="x-907"
       style="color:#848189">☠ Executioner Plushie ☠</button>
     <p class="sub"><a href="crates.html#c-paranoia">PARANOIA</a></p><p class="mline"><span class="rarity r-legendary">Legendary</span> &middot; <span class="g">2.5%</span></p></div>
@@ -13149,7 +13151,7 @@ footer.site p+p{margin-top:6px}
   data-rarity="Legendary" data-rank="4" data-win="2.5"
   data-price="" data-listings="0"
   data-slot="" data-name="☠ werewolf plushie ☠" data-search="legendary paranoia ">
-  <div class="slot r-legendary"><span class="ph" aria-hidden="true">?</span><span class="rar"></span></div>
+  <div class="slot r-legendary"><img src="icons/24d85c7ed0717727.png" alt="" width="48" height="48" loading="lazy"><span class="rar"></span></div>
   <div class="nm"><button class="name" type="button" aria-expanded="false" aria-controls="x-908"
       style="color:#7A8089">☠ Werewolf Plushie ☠</button>
     <p class="sub"><a href="crates.html#c-paranoia">PARANOIA</a></p><p class="mline"><span class="rarity r-legendary">Legendary</span> &middot; <span class="g">2.5%</span></p></div>
@@ -13163,7 +13165,7 @@ footer.site p+p{margin-top:6px}
   data-rarity="Mythic" data-rank="5" data-win="2.0"
   data-price="" data-listings="0"
   data-slot="helmet" data-name="☠ gothic bonnet ☠" data-search="mythic paranoia " data-lo='{&quot;slot&quot;: &quot;HEAD&quot;, &quot;cat&quot;: &quot;Head&quot;, &quot;stats&quot;: {&quot;block_interaction_range&quot;: 2.0}, &quot;src&quot;: {&quot;block_interaction_range&quot;: &quot;attribute&quot;}, &quot;effects&quot;: [], &quot;enemyEffects&quot;: [], &quot;abilities&quot;: [{&quot;trigger&quot;: &quot;Passive&quot;, &quot;text&quot;: &quot;Increases block interaction range by two. Unbreakable&quot;, &quot;target&quot;: &quot;self&quot;}], &quot;win&quot;: 2.0, &quot;opens&quot;: 50.0, &quot;hasStats&quot;: true}'>
-  <div class="slot r-mythic"><span class="ph" aria-hidden="true">?</span><span class="rar"></span></div>
+  <div class="slot r-mythic"><img src="icons/aec69fce4061e629.png" alt="" width="48" height="48" loading="lazy"><span class="rar"></span></div>
   <div class="nm"><button class="name" type="button" aria-expanded="false" aria-controls="x-909"
       style="color:#9871BB">☠ Gothic Bonnet ☠</button>
     <p class="sub"><a href="crates.html#c-paranoia">PARANOIA</a> &middot; Helmet</p><p class="mline"><span class="rarity r-mythic">Mythic</span> &middot; <span class="g">2%</span></p></div>
@@ -13205,7 +13207,7 @@ footer.site p+p{margin-top:6px}
   data-rarity="Mythic" data-rank="5" data-win="2.0"
   data-price="" data-listings="0"
   data-slot="mainhand" data-name="☠ pumpkin maul ☠" data-search="mythic paranoia hunger jump boost" data-lo='{&quot;slot&quot;: &quot;MAINHAND&quot;, &quot;cat&quot;: &quot;Mace&quot;, &quot;stats&quot;: {&quot;attack_damage&quot;: 10.0, &quot;attack_speed&quot;: 1.6}, &quot;src&quot;: {&quot;attack_damage&quot;: &quot;attribute&quot;, &quot;attack_speed&quot;: &quot;attribute&quot;}, &quot;effects&quot;: [{&quot;name&quot;: &quot;Hunger&quot;, &quot;level&quot;: 1}, {&quot;name&quot;: &quot;Jump Boost&quot;, &quot;level&quot;: 5}], &quot;enemyEffects&quot;: [], &quot;abilities&quot;: [{&quot;trigger&quot;: &quot;Passive&quot;, &quot;text&quot;: &quot;Hits empty your target&#x27;s hunger instantly with a brief cooldown.&quot;, &quot;target&quot;: &quot;self&quot;}, {&quot;trigger&quot;: &quot;Passive&quot;, &quot;text&quot;: &quot;When held gain Jump Boost V. Unbreakable&quot;, &quot;target&quot;: &quot;self&quot;}], &quot;win&quot;: 2.0, &quot;opens&quot;: 50.0, &quot;hasStats&quot;: true}'>
-  <div class="slot r-mythic"><span class="ph" aria-hidden="true">?</span><span class="rar"></span></div>
+  <div class="slot r-mythic"><img src="icons/77ce3d117670751d.png" alt="" width="48" height="48" loading="lazy"><span class="rar"></span></div>
   <div class="nm"><button class="name" type="button" aria-expanded="false" aria-controls="x-912"
       style="color:#FF852B">☠ Pumpkin Maul ☠</button>
     <p class="sub"><a href="crates.html#c-paranoia">PARANOIA</a> &middot; Mace</p><p class="mline"><span class="rarity r-mythic">Mythic</span> &middot; <span class="g">2%</span></p></div>
@@ -13219,7 +13221,7 @@ footer.site p+p{margin-top:6px}
   data-rarity="Mythic" data-rank="5" data-win="2.0"
   data-price="" data-listings="0"
   data-slot="helmet" data-name="☠ soulbound skull ☠" data-search="mythic paranoia absorption speed strength" data-lo='{&quot;slot&quot;: &quot;HEAD&quot;, &quot;cat&quot;: &quot;Head&quot;, &quot;stats&quot;: {&quot;armor&quot;: 3.0, &quot;armor_toughness&quot;: 3.0, &quot;knockback_resistance&quot;: 0.1, &quot;block_interaction_range&quot;: 1.0}, &quot;src&quot;: {&quot;armor&quot;: &quot;attribute&quot;, &quot;armor_toughness&quot;: &quot;attribute&quot;, &quot;knockback_resistance&quot;: &quot;attribute&quot;, &quot;block_interaction_range&quot;: &quot;attribute&quot;}, &quot;effects&quot;: [{&quot;name&quot;: &quot;Absorption&quot;, &quot;level&quot;: 5}, {&quot;name&quot;: &quot;Speed&quot;, &quot;level&quot;: 5}, {&quot;name&quot;: &quot;Strength&quot;, &quot;level&quot;: 1}], &quot;enemyEffects&quot;: [], &quot;abilities&quot;: [{&quot;trigger&quot;: &quot;Passive&quot;, &quot;text&quot;: &quot;When hit restore some health with a brief cooldown.&quot;, &quot;target&quot;: &quot;self&quot;}, {&quot;trigger&quot;: &quot;Passive&quot;, &quot;text&quot;: &quot;Repeated hits grant Absorption V, Strength IV and Speed V for a few seconds. Unbreakable&quot;, &quot;target&quot;: &quot;self&quot;}], &quot;win&quot;: 2.0, &quot;opens&quot;: 50.0, &quot;hasStats&quot;: true}'>
-  <div class="slot r-mythic"><span class="ph" aria-hidden="true">?</span><span class="rar"></span></div>
+  <div class="slot r-mythic"><img src="icons/e61e7a92a68590de.png" alt="" width="48" height="48" loading="lazy"><span class="rar"></span></div>
   <div class="nm"><button class="name" type="button" aria-expanded="false" aria-controls="x-913"
       style="color:#8EDB38">☠ Soulbound Skull ☠</button>
     <p class="sub"><a href="crates.html#c-paranoia">PARANOIA</a> &middot; Helmet</p><p class="mline"><span class="rarity r-mythic">Mythic</span> &middot; <span class="g">2%</span></p></div>
@@ -13233,7 +13235,7 @@ footer.site p+p{margin-top:6px}
   data-rarity="Mythic" data-rank="5" data-win="2.0"
   data-price="" data-listings="0"
   data-slot="mainhand" data-name="☠ spiritbound blade ☠" data-search="mythic paranoia absorption strength" data-lo='{&quot;slot&quot;: &quot;MAINHAND&quot;, &quot;cat&quot;: &quot;Sword&quot;, &quot;stats&quot;: {&quot;attack_damage&quot;: 12.0, &quot;attack_speed&quot;: 1.6}, &quot;src&quot;: {&quot;attack_damage&quot;: &quot;attribute&quot;, &quot;attack_speed&quot;: &quot;attribute&quot;}, &quot;effects&quot;: [{&quot;name&quot;: &quot;Absorption&quot;, &quot;level&quot;: 2}, {&quot;name&quot;: &quot;Strength&quot;, &quot;level&quot;: 3}], &quot;enemyEffects&quot;: [], &quot;abilities&quot;: [{&quot;trigger&quot;: &quot;Sneak-Right-Click&quot;, &quot;text&quot;: &quot;Sneak-Right-Click to trap nearby players for a few seconds with a brief cooldown.&quot;, &quot;target&quot;: &quot;self&quot;}, {&quot;trigger&quot;: &quot;Passive&quot;, &quot;text&quot;: &quot;Gain Strength III and Absorption II while the trap is active. Unbreakable&quot;, &quot;target&quot;: &quot;self&quot;}], &quot;win&quot;: 2.0, &quot;opens&quot;: 50.0, &quot;hasStats&quot;: true}'>
-  <div class="slot r-mythic"><span class="ph" aria-hidden="true">?</span><span class="rar"></span></div>
+  <div class="slot r-mythic"><img src="icons/432189f471d38093.png" alt="" width="48" height="48" loading="lazy"><span class="rar"></span></div>
   <div class="nm"><button class="name" type="button" aria-expanded="false" aria-controls="x-914"
       style="color:#8BDB6B">☠ Spiritbound Blade ☠</button>
     <p class="sub"><a href="crates.html#c-paranoia">PARANOIA</a> &middot; Sword</p><p class="mline"><span class="rarity r-mythic">Mythic</span> &middot; <span class="g">2%</span></p></div>
@@ -13247,7 +13249,7 @@ footer.site p+p{margin-top:6px}
   data-rarity="Mythic" data-rank="5" data-win="2.0"
   data-price="" data-listings="0"
   data-slot="mainhand" data-name="☠ vampire scythe ☠" data-search="mythic paranoia regeneration resistance strength" data-lo='{&quot;slot&quot;: &quot;MAINHAND&quot;, &quot;cat&quot;: &quot;Sword&quot;, &quot;stats&quot;: {&quot;attack_damage&quot;: 12.0, &quot;attack_speed&quot;: 1.6}, &quot;src&quot;: {&quot;attack_damage&quot;: &quot;attribute&quot;, &quot;attack_speed&quot;: &quot;attribute&quot;}, &quot;effects&quot;: [{&quot;name&quot;: &quot;Regeneration&quot;, &quot;level&quot;: 1}, {&quot;name&quot;: &quot;Resistance&quot;, &quot;level&quot;: 1}, {&quot;name&quot;: &quot;Strength&quot;, &quot;level&quot;: 3}], &quot;enemyEffects&quot;: [], &quot;abilities&quot;: [{&quot;trigger&quot;: &quot;Sneak-Right-Click&quot;, &quot;text&quot;: &quot;Sneak-Right-Click to strip Resistance and Regeneration from nearby players for a few seconds with a brief cooldown.&quot;, &quot;target&quot;: &quot;self&quot;}, {&quot;trigger&quot;: &quot;Passive&quot;, &quot;text&quot;: &quot;Stripping nearby players grants Strength III for a few seconds. Unbreakable&quot;, &quot;target&quot;: &quot;self&quot;}], &quot;win&quot;: 2.0, &quot;opens&quot;: 50.0, &quot;hasStats&quot;: true}'>
-  <div class="slot r-mythic"><span class="ph" aria-hidden="true">?</span><span class="rar"></span></div>
+  <div class="slot r-mythic"><img src="icons/3c23a6c5dab1ed16.png" alt="" width="48" height="48" loading="lazy"><span class="rar"></span></div>
   <div class="nm"><button class="name" type="button" aria-expanded="false" aria-controls="x-915"
       style="color:#D85050">☠ Vampire Scythe ☠</button>
     <p class="sub"><a href="crates.html#c-paranoia">PARANOIA</a> &middot; Sword</p><p class="mline"><span class="rarity r-mythic">Mythic</span> &middot; <span class="g">2%</span></p></div>
@@ -13261,7 +13263,7 @@ footer.site p+p{margin-top:6px}
   data-rarity="Mythic" data-rank="5" data-win="2.0"
   data-price="" data-listings="0"
   data-slot="helmet" data-name="☠ wendigo helmet ☠" data-search="mythic paranoia hunger" data-lo='{&quot;slot&quot;: &quot;HEAD&quot;, &quot;cat&quot;: &quot;Head&quot;, &quot;stats&quot;: {&quot;armor&quot;: 3.0, &quot;armor_toughness&quot;: 3.0, &quot;knockback_resistance&quot;: 0.1, &quot;block_interaction_range&quot;: 1.0}, &quot;src&quot;: {&quot;armor&quot;: &quot;attribute&quot;, &quot;armor_toughness&quot;: &quot;attribute&quot;, &quot;knockback_resistance&quot;: &quot;attribute&quot;, &quot;block_interaction_range&quot;: &quot;attribute&quot;}, &quot;effects&quot;: [{&quot;name&quot;: &quot;Hunger&quot;, &quot;level&quot;: 1}], &quot;enemyEffects&quot;: [], &quot;abilities&quot;: [{&quot;trigger&quot;: &quot;Passive&quot;, &quot;text&quot;: &quot;Hits deal extra health-based damage with a brief cooldown. Unbreakable&quot;, &quot;target&quot;: &quot;self&quot;}], &quot;win&quot;: 2.0, &quot;opens&quot;: 50.0, &quot;hasStats&quot;: true}'>
-  <div class="slot r-mythic"><span class="ph" aria-hidden="true">?</span><span class="rar"></span></div>
+  <div class="slot r-mythic"><img src="icons/975f0e4ee44f42fc.png" alt="" width="48" height="48" loading="lazy"><span class="rar"></span></div>
   <div class="nm"><button class="name" type="button" aria-expanded="false" aria-controls="x-916"
       style="color:#B77E7B">☠ Wendigo Helmet ☠</button>
     <p class="sub"><a href="crates.html#c-paranoia">PARANOIA</a> &middot; Helmet</p><p class="mline"><span class="rarity r-mythic">Mythic</span> &middot; <span class="g">2%</span></p></div>
@@ -13275,7 +13277,7 @@ footer.site p+p{margin-top:6px}
   data-rarity="Immortal" data-rank="6" data-win="1.0"
   data-price="" data-listings="0"
   data-slot="" data-name="☠ bloodfang staff ☠" data-search="immortal paranoia ">
-  <div class="slot r-immortal"><span class="ph" aria-hidden="true">?</span><span class="rar"></span></div>
+  <div class="slot r-immortal"><img src="icons/8d29cdf126294dec.png" alt="" width="48" height="48" loading="lazy"><span class="rar"></span></div>
   <div class="nm"><button class="name" type="button" aria-expanded="false" aria-controls="x-917"
       style="color:#C17770">☠ BLOODFANG STAFF ☠</button>
     <p class="sub"><a href="crates.html#c-paranoia">PARANOIA</a></p><p class="mline"><span class="rarity r-immortal">Immortal</span> &middot; <span class="g">1%</span></p></div>
@@ -13289,7 +13291,7 @@ footer.site p+p{margin-top:6px}
   data-rarity="Immortal" data-rank="6" data-win="1.0"
   data-price="" data-listings="0"
   data-slot="mainhand" data-name="☠ crimson blade ☠" data-search="immortal paranoia darkness slowness" data-lo='{&quot;slot&quot;: &quot;MAINHAND&quot;, &quot;cat&quot;: &quot;Sword&quot;, &quot;stats&quot;: {&quot;attack_damage&quot;: 15.0, &quot;attack_speed&quot;: 1.6}, &quot;src&quot;: {&quot;attack_damage&quot;: &quot;attribute&quot;, &quot;attack_speed&quot;: &quot;attribute&quot;}, &quot;effects&quot;: [{&quot;name&quot;: &quot;Darkness&quot;, &quot;level&quot;: 1}, {&quot;name&quot;: &quot;Slowness&quot;, &quot;level&quot;: 1}], &quot;enemyEffects&quot;: [], &quot;abilities&quot;: [{&quot;trigger&quot;: &quot;Passive&quot;, &quot;text&quot;: &quot;Hits deal extra percent-health damage with a brief cooldown.&quot;, &quot;target&quot;: &quot;self&quot;}, {&quot;trigger&quot;: &quot;Sneak-Right-Click&quot;, &quot;text&quot;: &quot;Sneak-Right-Click to release a pulse, dealing percent-health damage nearby after a buildup with a brief cooldown.&quot;, &quot;target&quot;: &quot;self&quot;}, {&quot;trigger&quot;: &quot;Sneak-Left-Click&quot;, &quot;text&quot;: &quot;Sneak-Left-Click to slash enemies ahead, dealing damage, Slowness and Darkness with a brief cooldown. Unbreakable&quot;, &quot;target&quot;: &quot;enemies&quot;}], &quot;win&quot;: 1.0, &quot;opens&quot;: 100.0, &quot;hasStats&quot;: true}'>
-  <div class="slot r-immortal"><span class="ph" aria-hidden="true">?</span><span class="rar"></span></div>
+  <div class="slot r-immortal"><img src="icons/85b55e9fd5df9e9f.png" alt="" width="48" height="48" loading="lazy"><span class="rar"></span></div>
   <div class="nm"><button class="name" type="button" aria-expanded="false" aria-controls="x-918"
       style="color:#D45565">☠ CRIMSON BLADE ☠</button>
     <p class="sub"><a href="crates.html#c-paranoia">PARANOIA</a> &middot; Sword</p><p class="mline"><span class="rarity r-immortal">Immortal</span> &middot; <span class="g">1%</span></p></div>
@@ -13303,7 +13305,7 @@ footer.site p+p{margin-top:6px}
   data-rarity="Immortal" data-rank="6" data-win="1.0"
   data-price="" data-listings="0"
   data-slot="mainhand" data-name="☠ soulreaper shovel ☠" data-search="immortal paranoia haste speed" data-lo='{&quot;slot&quot;: &quot;MAINHAND&quot;, &quot;cat&quot;: &quot;Shovel&quot;, &quot;stats&quot;: {}, &quot;src&quot;: {}, &quot;effects&quot;: [{&quot;name&quot;: &quot;Haste&quot;, &quot;level&quot;: 5}, {&quot;name&quot;: &quot;Speed&quot;, &quot;level&quot;: 5}], &quot;enemyEffects&quot;: [], &quot;abilities&quot;: [{&quot;trigger&quot;: &quot;Passive&quot;, &quot;text&quot;: &quot;Digs blocks in a square shape.&quot;, &quot;target&quot;: &quot;self&quot;}, {&quot;trigger&quot;: &quot;Passive&quot;, &quot;text&quot;: &quot;Chance to get Halloween Furniture.&quot;, &quot;target&quot;: &quot;self&quot;}, {&quot;trigger&quot;: &quot;Passive&quot;, &quot;text&quot;: &quot;Chance to get Halloween Booster Pack.&quot;, &quot;target&quot;: &quot;self&quot;}, {&quot;trigger&quot;: &quot;Passive&quot;, &quot;text&quot;: &quot;Digging grants Speed V and Haste V for a few seconds every 300 blocks. Unbreakable&quot;, &quot;target&quot;: &quot;self&quot;}], &quot;win&quot;: 1.0, &quot;opens&quot;: 100.0, &quot;hasStats&quot;: true}'>
-  <div class="slot r-immortal"><span class="ph" aria-hidden="true">?</span><span class="rar"></span></div>
+  <div class="slot r-immortal"><img src="icons/a576e1a37148a167.png" alt="" width="48" height="48" loading="lazy"><span class="rar"></span></div>
   <div class="nm"><button class="name" type="button" aria-expanded="false" aria-controls="x-919"
       style="color:#5BAB76">☠ SOULREAPER SHOVEL ☠</button>
     <p class="sub"><a href="crates.html#c-paranoia">PARANOIA</a> &middot; Shovel</p><p class="mline"><span class="rarity r-immortal">Immortal</span> &middot; <span class="g">1%</span></p></div>
@@ -17483,7 +17485,7 @@ footer.site p+p{margin-top:6px}
 </main>
 <footer class="site">
   <p>Prices are the lowest asking prices seen in the auction house.</p>
-  <p>Blossom+ &middot; fan-made, not affiliated with BlossomCraft &middot; built 2026-10-19 00:50</p>
+  <p>Blossom+ &middot; fan-made, not affiliated with BlossomCraft &middot; built 2026-10-19 20:08</p>
 </footer>
 <div class="mc-tip" id="ftip" aria-hidden="true"></div>
 <div class="sheet-bg" id="sheet-bg" hidden></div>
