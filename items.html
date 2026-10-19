@@ -301,16 +301,18 @@ footer.site p+p{margin-top:6px}
 .lo-slots .slot img.sil{opacity:.9}
 .lo-alt{margin-top:12px}
 .lo-alt[hidden]{display:none}
-.lo-alt-list{list-style:none;margin:0;padding:0;display:grid;gap:4px}
-.lo-alt-list li{display:grid;grid-template-columns:76px minmax(0,1fr);gap:6px;align-items:start}
-.lo-alt-list .k{font:500 13px var(--f-pixel);color:var(--gui-ink-2);padding-top:5px}
-.lo-alt-list li .alt+.alt{grid-column:2}
-.lo-alt-list .alt{display:flex;align-items:center;gap:6px;min-width:0;min-height:32px;padding:3px 6px;cursor:pointer;
+.lo-alt-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.lo-alt-list li{display:grid;gap:4px}
+.lo-alt-list .k{margin:0;font:600 14px var(--f-pixel);color:var(--gui-ink)}
+.lo-alt-list .k .now{font:400 12px var(--f-body);color:var(--gui-ink-2)}
+.lo-alt-list .alt{display:flex;align-items:center;gap:6px;min-width:0;min-height:36px;padding:3px 6px;cursor:pointer;
   background:var(--slot);border:0;box-shadow:inset 2px 2px 0 var(--slot-lo),inset -2px -2px 0 var(--slot-hi);
   color:var(--slot-ink);font:500 13px var(--f-pixel);text-align:left;text-shadow:1px 1px 0 var(--slot-shadow)}
 .lo-alt-list .alt:hover{background:var(--slot-hover)}
 .lo-alt-list .alt img{width:24px;height:24px;image-rendering:pixelated;flex:none}
-.lo-alt-list .alt span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lo-alt-list .alt .nm{display:grid;min-width:0}
+.lo-alt-list .alt .nm,.lo-alt-list .alt small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lo-alt-list .alt small{font:400 11px var(--f-body);color:#f3e7ec;text-shadow:none}
 .lo-bar{margin-top:12px}
 .lo-bar[hidden]{display:none}
 .lo-bar-h{margin:0 0 6px;font:500 16px var(--f-pixel);color:var(--gui-ink)}
@@ -17532,7 +17534,7 @@ footer.site p+p{margin-top:6px}
 </main>
 <footer class="site">
   <p>Prices are the lowest asking prices seen in the auction house.</p>
-  <p>Blossom+ &middot; fan-made, not affiliated with BlossomCraft &middot; built 2026-10-19 22:04</p>
+  <p>Blossom+ &middot; fan-made, not affiliated with BlossomCraft &middot; built 2026-10-19 22:05</p>
 </footer>
 <div class="mc-tip" id="ftip" aria-hidden="true"></div>
 <div class="sheet-bg" id="sheet-bg" hidden></div>
@@ -17845,12 +17847,25 @@ footer.site p+p{margin-top:6px}
   // ---- "Second choice": the runners-up per slot; click one to swap it in
   function renderAlt(){
     var box=$('lo-alt'), list=$('lo-alt-list'), g=$('goal').value, html='';
+    // where an item does its thing, in words (from data-place)
+    function whereTxt(it){
+      var p=it.place||[], w=[];
+      if(p.indexOf('main')>=0&&p.indexOf('off')>=0) w.push('main or off hand');
+      else if(p.indexOf('main')>=0) w.push('main hand');
+      else if(p.indexOf('off')>=0) w.push('off hand');
+      if(p.indexOf('worn')>=0) w.push('worn');
+      if(p.indexOf('hotbar')>=0) w.push('hotbar');
+      return w.join(' · ');
+    }
     SLOTS.forEach(function(s){
       var alts=ALT[s[0]]||[]; if(!alts.length) return;
-      html+='<li><span class="k">'+esc(s[2])+'</span>'+alts.map(function(it){
-        return '<button type="button" class="alt" data-k="'+s[0]+'" data-i="'+it.i+'" title="'+esc(it.name)+'">'+
+      var cur=equipped[s[0]]!==undefined?ITEMS[equipped[s[0]]].name:'';
+      html+='<li><p class="k">'+esc(s[2])+(cur?' <span class="now">instead of '+esc(cur)+'</span>':'')+'</p>'+
+        alts.map(function(it){ var wh=whereTxt(it);
+        return '<button type="button" class="alt" data-k="'+s[0]+'" data-i="'+it.i+'" title="'+esc(it.name)+
+          ' - put in '+esc(s[2].toLowerCase())+'">'+
           (it.icon?'<img src="'+esc(it.icon)+'" alt="" width="24" height="24">':'')+
-          '<span>'+esc(it.name)+'</span></button>';}).join('')+'</li>';
+          '<span class="nm">'+esc(it.name)+(wh?'<small>'+esc(wh)+'</small>':'')+'</span></button>';}).join('')+'</li>';
     });
     list.innerHTML=html; box.hidden=!html;
   }
